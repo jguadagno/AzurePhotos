@@ -32,6 +32,9 @@ namespace AzurePhotos.WebSite.Controllers
 				return HttpNotFound();
 			}
 
+			photo.PhotoBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.StorageContainers.PhotoGallery,
+				photo.PhotoUrl);
+
 			return View(photo);
 		}
 
@@ -46,16 +49,13 @@ namespace AzurePhotos.WebSite.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(Photo photo)
+		public ActionResult Create(Photo photo, HttpPostedFileBase imageFile)
 		{
-			if (ModelState.IsValid)
-			{
-				photo.DateAdded = DateTime.Now;
-				db.Photos.Add(photo);
-				db.SaveChanges();
-			}
 
-			return RedirectToAction("Index");
+			int photoId = BusinessLogic.Photos.AddPhoto(photo.Title, photo.Description, imageFile.FileName,
+				imageFile.ContentType, imageFile.InputStream);
+
+			return RedirectToAction("Details", new { id = photoId });
 		}
 
 

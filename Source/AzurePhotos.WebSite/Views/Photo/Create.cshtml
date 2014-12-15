@@ -39,13 +39,13 @@
 	</div>
 
 	<div class="form-group">
-		@Html.LabelFor(model => model.PhotoUrl, new { @class = "control-label col-sm-2" })
+		<label class="control-label col-sm-2">File</label>
 		<div class="col-sm-10">
-			@Html.TextBoxFor(model => model.PhotoUrl, new { @class = "form-control", placeholder = "Enter the url of the image" })
+			<input type="file" name="imageFile" class="form-control" />
 			@Html.ValidationMessageFor(model => model.PhotoUrl)
 		</div>
 	</div>
-	
+
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<input type="submit" value="Create" class="btn btn-default" />

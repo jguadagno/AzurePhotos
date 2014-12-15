@@ -3,22 +3,12 @@
 
 
 #Adding Blob Storage
+Explain AzurePhotos.CloudServices/BlobStorage
 
 ## AzurePhotos.BusinessLogic
-###Photos.cs
-####GetMostRecentPhotos
-Add to the foreach loop
-```cs
-photo.PhotoBlobUrl = GetBlobUrl(Constants.StorageContainers.PhotoGallery, photo.PhotoUrl);
-```
-###AddPhoto
-Add in the beginning of the method
-```cs
-var blobName = CloudServices.BlogStorage.GenerateUniqueFilename(filename);
-var blobLocation = CloudServices.BlogStorage.SendFileToBlob(Constants.StorageContainers.PhotoGallery,
-    stream, blobName, contentType);
-```
+Add reference to AzurePhotos.BusinessLogic
 
+###Photos.cs
 Add method
 ```cs
 /// <summary>
@@ -33,6 +23,23 @@ public static string GetBlobUrl(string containerName, string blobName)
 }
 ```
 
+####AddPhoto
+Add in the beginning of the method
+```cs
+var blobName = CloudServices.BlogStorage.GenerateUniqueFilename(filename);
+var blobLocation = CloudServices.BlogStorage.SendFileToBlob(Constants.StorageContainers.PhotoGallery,
+    stream, blobName, contentType);
+```
+
+Change the `"TODO: Get From Blob Storage"` to `blobLocation`
+
+
+####GetMostRecentPhotos
+Add to the foreach loop
+```cs
+photo.PhotoBlobUrl = GetBlobUrl(Constants.StorageContainers.PhotoGallery, photo.PhotoUrl);
+```
+
 ## AzurePhotos.Website
 
 ##AzurePhotos.Website
@@ -42,9 +49,10 @@ Before return View(photo) add
 ```html
 photo.PhotoBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.StorageContainers.PhotoGallery, photo.PhotoUrl);
 ```
+
 ####Create
 Replace Create(Photo) with
-```html
+```cs
 public ActionResult Create(Photo photo, HttpPostedFileBase imageFile)
 {
 
@@ -68,6 +76,15 @@ Replace lines 41-47 with
 </div>
 ```
 
+## Run the application
+* Visit Photos/Index
+* Visit Photos/Create
+* Save
+* Visit Photos/Detail of the new item
+
+## Demostrate the Azure Explorer
+Nuedesic Storage Explorer: 
+http://azurestorageexplorer.codeplex.com/
 
 #Adding Queues
 
@@ -90,6 +107,12 @@ Add to the foreach loop
 photo.ThumbnailBlobUrl = GetBlobUrl(Constants.StorageContainers.ThumbnailsGallery, photo.ThumbnailUrl);
 ```
 
+####AddPhoto
+Add after the `db.SaveChanges();`
+```cs
+var thumbnailMessage = new Thumbnail { PhotoName = blobLocation, PhotoId = photo.PhotoId };
+CloudServices.Queue.AddMessageToQueue(Constants.Queues.ThumbnailCreation, thumbnailMessage);
+```
 
 ##AzurePhotos.Website
 ##Controllers\PhotoController
@@ -129,8 +152,7 @@ Uncomment out BusinessLogic AddPhoto
 
 References
 ======
-Nuedesic Storage Explorer
-http://azurestorageexplorer.codeplex.com/
+
 
 Blog Storage in .NET
 http://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/

@@ -56,6 +56,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzurePhotos.CloudStorage\AzurePhotos.CloudServices.csproj">
+      <Project>{d2b778b1-7e16-4172-92fa-2823fc8d8416}</Project>
+      <Name>AzurePhotos.CloudServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AzurePhotos.Data\AzurePhotos.Data.csproj">
       <Project>{dafcbc49-9b57-4774-a390-7b8bc443147c}</Project>
       <Name>AzurePhotos.Data</Name>

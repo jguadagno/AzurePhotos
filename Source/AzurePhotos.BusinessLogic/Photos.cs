@@ -89,7 +89,7 @@ namespace AzurePhotos.BusinessLogic
 
 				foreach (var photo in list)
 				{
-					
+					photo.PhotoBlobUrl = GetBlobUrl(Constants.StorageContainers.PhotoGallery, photo.PhotoUrl);
 				}
 
 				return list;
@@ -108,13 +108,17 @@ namespace AzurePhotos.BusinessLogic
 		public static int AddPhoto(string title, string description, string filename, string contentType, Stream stream)
 		{
 
+			var blobName = CloudServices.BlogStorage.GenerateUniqueFilename(filename);
+			var blobLocation = CloudServices.BlogStorage.SendFileToBlob(Constants.StorageContainers.PhotoGallery,
+				stream, blobName, contentType);
+
 			using (var db = new AzurePhotosEntities())
 			{
 				var photo = new Photo
 				{
 					Title = title,
 					Description = description,
-					PhotoUrl = "TODO: Get From Blob Storage",
+					PhotoUrl = blobLocation,
 					DateAdded = DateTime.Now
 				};
 
@@ -123,6 +127,17 @@ namespace AzurePhotos.BusinessLogic
 
 				return photo.PhotoId;
 			}
+		}
+
+		/// <summary>
+		/// Gets the url for the stored blob image
+		/// </summary>
+		/// <param name="containerName">The blob container where the image is stored</param>
+		/// <param name="blobName">The name of the blob item</param>
+		/// <returns></returns>
+		public static string GetBlobUrl(string containerName, string blobName)
+		{
+			return CloudServices.BlogStorage.GetBlobUrl(containerName, blobName);
 		}
 	}
 }

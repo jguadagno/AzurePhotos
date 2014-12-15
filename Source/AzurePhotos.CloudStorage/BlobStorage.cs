@@ -19,28 +19,6 @@ namespace AzurePhotos.CloudServices
 		private static readonly object Lock = new object();
 
 		/// <summary>
-		/// Gets a reference to a blob container
-		/// </summary>
-		/// <param name="containerName">The name of the container</param>
-		/// <param name="configurationName">The configuration key name for the Windows Azure blob storage account</param>
-		/// <returns>The container reference</returns>
-		public static CloudBlobContainer GetBlobContainer(string containerName, string configurationName = "AzureBlobStorageConnectionString")
-		{
-			lock (Lock)
-			{
-				if (BlobContainers.ContainsKey(containerName))
-				{
-					return BlobContainers[containerName];
-				}
-			}
-			CreateCloudBlobClient(containerName);
-			lock (Lock)
-			{
-				return BlobContainers[containerName];
-			}
-		}
-
-		/// <summary>
 		/// Creates the blob container
 		/// </summary>
 		/// <param name="containerName">The container name</param>
@@ -80,6 +58,28 @@ namespace AzurePhotos.CloudServices
 						 "via the current account configuration or the local development storage tool is not running. " +
 						 "Please start the development storage tool if you run the service locally!");
 				}
+			}
+		}
+
+		/// <summary>
+		/// Gets a reference to a blob container
+		/// </summary>
+		/// <param name="containerName">The name of the container</param>
+		/// <param name="configurationName">The configuration key name for the Windows Azure blob storage account</param>
+		/// <returns>The container reference</returns>
+		public static CloudBlobContainer GetBlobContainer(string containerName, string configurationName = "AzureBlobStorageConnectionString")
+		{
+			lock (Lock)
+			{
+				if (BlobContainers.ContainsKey(containerName))
+				{
+					return BlobContainers[containerName];
+				}
+			}
+			CreateCloudBlobClient(containerName);
+			lock (Lock)
+			{
+				return BlobContainers[containerName];
 			}
 		}
 
