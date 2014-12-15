@@ -1,0 +1,66 @@
+﻿@using Mvc.RazorTools.FontAwesome
+@model IEnumerable<AzurePhotos.Data.Photo>
+
+@{
+	ViewBag.Title = "List of Photos";
+}
+
+<h2>List of Photos</h2>
+
+<p>
+	<a class="btn btn-default" href="@Url.Action("Create", "Photo")">@FontAwesomeIconSet.PlusSquareO.Html New</a>
+</p>
+<div class="row">
+	<table class="table table-striped table-hover">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Description)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ThumbnailUrl)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PhotoUrl)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateAdded)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateUpdated)
+			</th>
+			<th></th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ThumbnailUrl)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PhotoUrl)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateAdded)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateUpdated)
+				</td>
+				<td class="col-xs-1">
+					<a class="btn btn-block btn-default" href="@Url.Action("Edit", "Photo", new { id = item.PhotoId })">@FontAwesomeIconSet.PencilSquareO.Html Edit</a>
+					<a class="btn btn-block btn-primary" href="@Url.Action("Details", "Photo", new { id = item.PhotoId })">@FontAwesomeIconSet.Tasks.Html Details</a>
+					<a class="btn btn-block btn-danger" href="@Url.Action("Delete", "Photo", new { id = item.PhotoId })">@FontAwesomeIconSet.TrashO.Html Delete</a>
+				</td>
+			</tr>
+		}
+	</table>
+</div>

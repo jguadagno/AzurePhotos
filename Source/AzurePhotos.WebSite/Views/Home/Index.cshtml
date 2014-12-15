@@ -1,0 +1,54 @@
+﻿@using Mvc.RazorTools.FontAwesome
+@model AzurePhotos.WebSite.Models.RecentThumbnailsModel
+
+@{
+	ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+	<h1>Azure Photos</h1>
+	<p class="lead">This is a simple site to demostrate how to create a site that uses Microsoft Azure Cloud services.</p>
+	<p><a href="@Url.Action("About", "Home")" class="btn btn-primary btn-lg">About @FontAwesomeIconSet.AngleDoubleRight.Large1x().Html</a></p>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="thumbnail">
+			<img src="@Model.FirstThumbnail.ThumbnailBlobUrl" alt="@Model.FirstThumbnail.Title">
+			<div class="caption">
+				<h3>@Model.FirstThumbnail.Title</h3>
+				<p>@Model.FirstThumbnail.Description</p>
+				<p class="text-center">
+					<a href="@Model.FirstThumbnail.PhotoBlobUrl" class="btn btn-default" role="button">View Photo</a>
+					<a href="@Url.Action("Details", "Photo", new {id= @Model.FirstThumbnail.PhotoId})" class="btn btn-primary" role="button">View Details</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="thumbnail">
+			<img src="@Model.SecondThumbnail.ThumbnailBlobUrl" alt="@Model.SecondThumbnail.Title">
+			<div class="caption">
+				<h3>@Model.SecondThumbnail.Title</h3>
+				<p>@Model.SecondThumbnail.Description</p>
+				<p class="text-center">
+					<a href="@Model.SecondThumbnail.PhotoBlobUrl" class="btn btn-default" role="button">View Photo</a>
+					<a href="@Url.Action("Details", "Photo", new {id= @Model.SecondThumbnail.PhotoId})" class="btn btn-primary" role="button">View Details</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="thumbnail">
+			<img src="@Model.ThirdThumbnail.ThumbnailBlobUrl" alt="@Model.ThirdThumbnail.Title">
+			<div class="caption">
+				<h3>@Model.ThirdThumbnail.Title</h3>
+				<p>@Model.ThirdThumbnail.Description</p>
+				<p class="text-center">
+					<a href="@Model.ThirdThumbnail.PhotoBlobUrl" class="btn btn-default" role="button">View Photo</a>
+					<a href="@Url.Action("Details", "Photo", new {id= @Model.ThirdThumbnail.PhotoId})" class="btn btn-primary" role="button">View Details</a>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

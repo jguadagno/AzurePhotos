@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.WebSite", "AzurePhotos.WebSite\AzurePhotos.WebSite.csproj", "{173B11B9-37C3-4073-9969-BC6A5C05EAA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.Data", "AzurePhotos.Data\AzurePhotos.Data.csproj", "{DAFCBC49-9B57-4774-A390-7B8BC443147C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.BusinessLogic", "AzurePhotos.BusinessLogic\AzurePhotos.BusinessLogic.csproj", "{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.CloudServices", "AzurePhotos.CloudStorage\AzurePhotos.CloudServices.csproj", "{D2B778B1-7E16-4172-92FA-2823FC8D8416}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.Domain", "AzurePhotos.Domain\AzurePhotos.Domain.csproj", "{771CF4B3-669D-43FD-A1AA-AABCDB309E11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{67E906A1-F123-44E5-BA37-762614E1E049}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{173B11B9-37C3-4073-9969-BC6A5C05EAA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{173B11B9-37C3-4073-9969-BC6A5C05EAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{173B11B9-37C3-4073-9969-BC6A5C05EAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{173B11B9-37C3-4073-9969-BC6A5C05EAA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAFCBC49-9B57-4774-A390-7B8BC443147C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFCBC49-9B57-4774-A390-7B8BC443147C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFCBC49-9B57-4774-A390-7B8BC443147C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFCBC49-9B57-4774-A390-7B8BC443147C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2B778B1-7E16-4172-92FA-2823FC8D8416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2B778B1-7E16-4172-92FA-2823FC8D8416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2B778B1-7E16-4172-92FA-2823FC8D8416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2B778B1-7E16-4172-92FA-2823FC8D8416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4} = {67E906A1-F123-44E5-BA37-762614E1E049}
+		{D2B778B1-7E16-4172-92FA-2823FC8D8416} = {67E906A1-F123-44E5-BA37-762614E1E049}
+	EndGlobalSection
+EndGlobal
