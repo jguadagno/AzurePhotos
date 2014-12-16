@@ -125,6 +125,9 @@ namespace AzurePhotos.BusinessLogic
 				db.Photos.Add(photo);
 				db.SaveChanges();
 
+				var thumbnailMessage = new Thumbnail { PhotoName = blobLocation, PhotoId = photo.PhotoId };
+				CloudServices.Queue.AddMessageToQueue(Constants.Queues.ThumbnailCreation, thumbnailMessage);
+
 				return photo.PhotoId;
 			}
 		}

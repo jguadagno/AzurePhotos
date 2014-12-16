@@ -10,7 +10,7 @@ Add reference to AzurePhotos.BusinessLogic
 
 ###Photos.cs
 Add method
-```cs
+```csharp
 /// <summary>
 /// Gets the url for the stored blob image
 /// </summary>
@@ -25,7 +25,7 @@ public static string GetBlobUrl(string containerName, string blobName)
 
 ####AddPhoto
 Add in the beginning of the method
-```cs
+```csharp
 var blobName = CloudServices.BlogStorage.GenerateUniqueFilename(filename);
 var blobLocation = CloudServices.BlogStorage.SendFileToBlob(Constants.StorageContainers.PhotoGallery,
     stream, blobName, contentType);
@@ -36,7 +36,7 @@ Change the `"TODO: Get From Blob Storage"` to `blobLocation`
 
 ####GetMostRecentPhotos
 Add to the foreach loop
-```cs
+```csharp
 photo.PhotoBlobUrl = GetBlobUrl(Constants.StorageContainers.PhotoGallery, photo.PhotoUrl);
 ```
 
@@ -52,7 +52,7 @@ photo.PhotoBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.Sto
 
 ####Create
 Replace Create(Photo) with
-```cs
+```csharp
 public ActionResult Create(Photo photo, HttpPostedFileBase imageFile)
 {
 
@@ -77,6 +77,8 @@ Replace lines 41-47 with
 ```
 
 ## Run the application
+* Show the Storage Explorer from Azure Server Explorer add in
+* Make sure the Storage Emulator is running
 * Visit Photos/Index
 * Visit Photos/Create
 * Save
@@ -87,39 +89,131 @@ Nuedesic Storage Explorer:
 http://azurestorageexplorer.codeplex.com/
 
 #Adding Queues
+Add Queue.cs to AzurePhotos.CloudServices
 
 ##AzurePhotos.WorkerRole
-
+* File | Add new project
+* Select Visual C# | Cloud | Azure Cloud Service
+* Name = AzurePhotos.WorkerRole
+* Explain the tpes
+* Choose Worker Role
+* Name it "AzurePhotos.ThumbnailCreator"
 
 ##AzurePhotos.ThumbnailCreator
+
+* Explain the 4 Methods: Run, OnStart, OnStop and RunAsync
+* Expand Roles
+* ALT + ENTER or Properties of AzurePhoto.ThumbnailCreator
+..* Explain - Configuration
+..* Explain - Setting
+..* Add Configuration: `AzureBlobStorageConnectionString`, Value: `UseDevelopmentStorage=true`
+
+
+
+### References
+1. Add References to
+..* AzurePhotos.BusinessLogic
+..* AzurePhotos.CloudServices
+..* AzurePhotos.Data
+..* AzurePhotos.Domain
+..* C:\Program Files\Microsoft SDKs\Azure\.NET SDK\v2.5\bin\runtimes\base\Microsoft.WindowsAzure.ServiceRuntime.dll
+...* Microsoft.WindowsAzure.ServiceRuntime
+2. Add NuGet Reference to EntityFramework
+..* Update NuGet references for all
+..* Remove from web.config
+
 ###app.config
 ```xml
 <connectionStrings>
-		<add name="AzurePhotosEntities" connectionString="metadata=res://*/PhotoModel.csdl|res://*/PhotoModel.ssdl|res://*/PhotoModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDb)\v11.0;attachdbfilename=C:\My\Presentations\AzurePhotos\Source\AzurePhotos.WebSite\App_Data\AzurePhotos.mdf;initial catalog=AzurePhotos;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
-	</connectionStrings>
+    <add name="AzurePhotosEntities"  connectionString="metadata=res://*/PhotoModel.csdl|res://*/PhotoModel.ssdl|res://*/PhotoModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDb)\v11.0;attachdbfilename=C:\My\Presentations\AzurePhotos\Source\AzurePhotos.WebSite\App_Data\AzurePhotos.mdf;initial catalog=AzurePhotos;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+</connectionStrings>
 ```
+
+## AzurePhotos.BusinessLogic
+
+####AddPhoto
+Add after the `db.SaveChanges();`
+```csharp
+var thumbnailMessage = new Thumbnail { PhotoName = blobLocation, PhotoId = photo.PhotoId };
+CloudServices.Queue.AddMessageToQueue(Constants.Queues.ThumbnailCreation, thumbnailMessage);
+```
+
+* Set the Startup projects to both the AzurePhotos.WorkerRole and AzurePhotos.Website
+* Start the application, show the queue after you create a new image
+
+##AzurePhotos.ThumbnailCreator
+Add using for `using AzurePhotos.BusinessLogic;`
+Add using for `using System.IO;`
+
+Replace Run method with
+```csharp
+Trace.TraceInformation("ThumbnailCreator WorkerRole Started", "Information");
+
+var queue = CloudServices.Queue.GetQueue(Constants.Queues.ThumbnailCreation);
+
+while (true)
+{
+    try
+    {
+        // Get Message
+        var cloudMessage = queue.GetMessage();
+        if (cloudMessage != null)
+        {
+            var message = CloudServices.ByteArraySerializer<Domain.Messages.Thumbnail>.Deserialize(cloudMessage.AsBytes);
+
+            // Get Original Photo
+            var originalPhoto = CloudServices.BlogStorage.GetStream(Constants.StorageContainers.PhotoGallery, message.PhotoName);
+            originalPhoto.Seek(0, SeekOrigin.Begin);
+
+            // Create Thumbnail
+            var thumbnail = BusinessLogic.Image.CreateThumbnail(originalPhoto, message.Width, message.Height);
+            // Commit to Thumbnail Blob
+            var thumbnailLocation = CloudServices.BlogStorage.SendFileToBlob(Constants.StorageContainers.ThumbnailsGallery, thumbnail, message.PhotoName, "image/jpeg");
+
+            // Save Thumbnail
+            BusinessLogic.Photos.UpdatePhotoThumbnailLocation(message.PhotoId, thumbnailLocation);
+
+            // Delete Message
+            queue.DeleteMessage(cloudMessage);
+        }
+        else
+        {
+            Thread.Sleep(1000);
+        }
+    }
+    catch (Exception exception)
+    {
+        System.Threading.Thread.Sleep(5000);
+        Trace.TraceError("Exception while trying to process a thumbnail queue item. Message: {0}", exception.Message);
+        throw;
+    }
+
+    Trace.TraceInformation("Waiting for 10 seconds", "Information");
+    Thread.Sleep(10000);
+
+}
+```
+
+Run the application, show the queue with the message gone.
+Show the photo's thumbnail has been updated.
+Stop Application
+
 
 ## AzurePhotos.BusinessLogic
 ###Photos.cs
 ####GetMostRecentPhotos
 Add to the foreach loop
-```cs
+```csharp
 photo.ThumbnailBlobUrl = GetBlobUrl(Constants.StorageContainers.ThumbnailsGallery, photo.ThumbnailUrl);
-```
-
-####AddPhoto
-Add after the `db.SaveChanges();`
-```cs
-var thumbnailMessage = new Thumbnail { PhotoName = blobLocation, PhotoId = photo.PhotoId };
-CloudServices.Queue.AddMessageToQueue(Constants.Queues.ThumbnailCreation, thumbnailMessage);
 ```
 
 ##AzurePhotos.Website
 ##Controllers\PhotoController
 Details before return View(photo) add
-```html
+```csharp
 photo.ThumbnailBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.StorageContainers.ThumbnailsGallery, photo.ThumbnailUrl);
 ```
+
 
 
 Changing to Azure Tables

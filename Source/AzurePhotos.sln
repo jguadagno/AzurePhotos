@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.Domain", "Azure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{67E906A1-F123-44E5-BA37-762614E1E049}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzurePhotos.WorkerRole", "AzurePhotos.WorkerRole\AzurePhotos.WorkerRole.ccproj", "{0794B55F-FF11-4513-96D0-EEE55B7343F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzurePhotos.ThumbnailCreator", "AzurePhotos.ThumbnailCreator\AzurePhotos.ThumbnailCreator.csproj", "{243D7296-A2F7-47FE-B785-1E26A0C182C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771CF4B3-669D-43FD-A1AA-AABCDB309E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0794B55F-FF11-4513-96D0-EEE55B7343F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0794B55F-FF11-4513-96D0-EEE55B7343F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0794B55F-FF11-4513-96D0-EEE55B7343F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0794B55F-FF11-4513-96D0-EEE55B7343F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{243D7296-A2F7-47FE-B785-1E26A0C182C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{243D7296-A2F7-47FE-B785-1E26A0C182C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{243D7296-A2F7-47FE-B785-1E26A0C182C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{243D7296-A2F7-47FE-B785-1E26A0C182C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F75D19FA-F9D6-48E2-B0DA-D5B688229DF4} = {67E906A1-F123-44E5-BA37-762614E1E049}
 		{D2B778B1-7E16-4172-92FA-2823FC8D8416} = {67E906A1-F123-44E5-BA37-762614E1E049}
+		{0794B55F-FF11-4513-96D0-EEE55B7343F2} = {67E906A1-F123-44E5-BA37-762614E1E049}
+		{243D7296-A2F7-47FE-B785-1E26A0C182C6} = {67E906A1-F123-44E5-BA37-762614E1E049}
 	EndGlobalSection
 EndGlobal
