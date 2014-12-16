@@ -90,6 +90,7 @@ namespace AzurePhotos.BusinessLogic
 				foreach (var photo in list)
 				{
 					photo.PhotoBlobUrl = GetBlobUrl(Constants.StorageContainers.PhotoGallery, photo.PhotoUrl);
+					photo.ThumbnailBlobUrl = GetBlobUrl(Constants.StorageContainers.ThumbnailsGallery, photo.ThumbnailUrl);
 				}
 
 				return list;

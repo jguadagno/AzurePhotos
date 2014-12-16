@@ -214,34 +214,14 @@ Details before return View(photo) add
 photo.ThumbnailBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.StorageContainers.ThumbnailsGallery, photo.ThumbnailUrl);
 ```
 
+* Run the Application
+* Show Home (Recent)
+* Show Details of Photo.
+* Add a new photo
 
 
 Changing to Azure Tables
 ======
-
-Add Package
-Add Reference to Windows.Azure.Runtime
-
-
-
-Thumbnails
-Add new project AzurePhotos.WorkerRole
-Choose WorkerRole
-Name it AzurePhotos.ThumbnailCreator
-
-Add reference to AzurePhotos.BusinessLogic, AzurePhotos.CloudServices, AzurePhotos.Domain
-Goto AzurePhotos.WorkerRole / Roles, View Properties on Roles/AzurePhotos.TumbnailCreator
-Add NuGet EF
-Add ConnectionString 'AzureBlobStorageConnectionString'
-Local = UseDevelopmentStorage=true
-Add to the App.config the AzurePhotoEntities
-
-Show AzurePhotos.WorkerRole properties
-
-Web Application Changes
-Uncomment out BusinessLogic AddPhoto
-
-
 
 
 References
@@ -261,6 +241,7 @@ Website Diagnostics:
 http://azure.microsoft.com/en-us/documentation/articles/web-sites-enable-diagnostic-log/
 http://azure.microsoft.com/en-us/documentation/articles/web-sites-dotnet-troubleshoot-visual-studio
 
+Hotfix 2588507: https://support.microsoft.com/kb/2588507
 
 Notes
 =======

@@ -34,6 +34,7 @@ namespace AzurePhotos.WebSite.Controllers
 
 			photo.PhotoBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.StorageContainers.PhotoGallery,
 				photo.PhotoUrl);
+			photo.ThumbnailBlobUrl = BusinessLogic.Photos.GetBlobUrl(BusinessLogic.Constants.StorageContainers.ThumbnailsGallery, photo.ThumbnailUrl);
 
 			return View(photo);
 		}
