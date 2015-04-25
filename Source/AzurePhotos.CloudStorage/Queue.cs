@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
@@ -51,9 +52,11 @@ namespace AzurePhotos.CloudServices
 						return CloudQueues[queueName];
 					}
 
-					CloudStorageAccount storageAccount =
-						CloudStorageAccount.Parse(RoleEnvironment.GetConfigurationSettingValue(configurationName));
+					string configurationSetting = RoleEnvironment.IsAvailable
+						? RoleEnvironment.GetConfigurationSettingValue(configurationName)
+						: ConfigurationManager.AppSettings[configurationName];
 
+					CloudStorageAccount storageAccount = CloudStorageAccount.Parse(configurationSetting);
 					CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 					CloudQueue queue = queueClient.GetQueueReference(queueName);
 					queue.CreateIfNotExists();
